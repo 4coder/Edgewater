@@ -56,7 +56,7 @@ a{
 }
 .main{
 	width: 1000px;
-	height: 700px;
+	height: 620px;
 	overflow: hidden;
 	margin: 0 auto;
 	position: relative;
@@ -93,7 +93,7 @@ a{
 }
 /* Header Style */
 .codrops-top{
-	line-height: 24px;
+	line-height: 48px;
 	font-size: 11px;
 	background: #fff;
 	background: rgba(255, 255, 255, 0.6);

@@ -35,6 +35,141 @@
 <script type="text/javascript" src="scripts/framework.js"></script>
 <script type="text/javascript" src="scripts/framework.launcher.js"></script>
 
+<script>
+	
+	var submit_ques = [0,0,0];
+	var skip_ques = [0,0,0];
+		
+	var question = 0;
+		
+	window.onload = function() {
+	
+		$(".custom").click(function()
+		{
+			$(this).hasClass("radio" + (question + 1))
+			{
+				var checked = $(this).attr('href');
+				//alert(question + 1);
+				
+				$(".radio" + (question + 1)).each(function() {
+    
+					if($(this).hasClass('radio-two-checked'))
+					{
+						$(this).removeClass('radio-two-checked');
+					}
+					
+				});
+				
+				$(".radio" + (question + 1)).each(function() {
+    
+					if($(this).attr('href') == checked)
+					{
+						$(this).addClass('radio-two-checked');
+					}
+					
+				});
+				
+			}
+		});
+	
+		$("#next").click(function()
+		{
+			radio_id = question+1;
+			div_id = question+1;
+			
+			$(".radio1").each(function() {
+    
+				if($(this).hasClass('radio-two-checked'))
+				{
+					submit_ques[question] = $(this).attr('href');
+				}
+			});
+			
+			
+			
+			
+			if(question >= 2)
+			{
+				$("#next").hide();
+				$("#skip").hide();
+				$("#submit").show();
+			}
+			else
+			{
+				$("#div_quiz_"+div_id).slideUp(800);
+				div_id = question+2;
+							
+				$("#div_quiz_"+div_id).show();
+					//$("#div_quiz_"+div_id).show('slide', {direction: 'left'}, "slow");
+						
+				question++;
+
+			}
+			
+		});
+		
+		$("#skip").click(function()
+		{
+			div_id = question+1;
+			skip_ques[question] = question+1;
+				
+			
+			if(question >= 2)
+			{
+				$("#next").hide();
+				$("#skip").hide();
+				$("#submit").show();
+			}
+			else
+			{
+				$("#div_quiz_"+div_id).slideUp(800);
+				div_id = question+2;
+							
+				$("#div_quiz_"+div_id).show();
+					//$("#div_quiz_"+div_id).show('slide', {direction: 'left'}, "slow");
+						
+				question++;
+
+			}
+				
+		});
+		
+		$("#submit").click(function()
+		{
+				$("#div_quiz_1").hide();
+				$("#div_quiz_2").hide();
+				$("#div_quiz_3").hide();
+				$("#div_buttons").hide();
+				
+				var total_qestion = 3;
+				var total_attempt_qestion = 0;
+				var total_skip_qestion = 0;
+				
+				
+				for(var i=0; i<submit_ques.length; i++)
+				{
+					if(submit_ques[i] != 0)
+					total_attempt_qestion++;
+				}
+				
+				for(var i=0; i<skip_ques.length; i++)
+				{
+					if(skip_ques[i] != 0)
+					total_skip_qestion++;
+				}
+				
+				var total_corrent_qestion = Math.floor(Math.random() * (total_attempt_qestion - 0 + 1) + 0);
+				var percent = (total_corrent_qestion/total_qestion * 100).toFixed(2);
+				
+				$("#tbl_quiz_result").append('<tr> <td>Total Question</td> <td>' + total_qestion + '</td> </tr><tr> <td>Total Attempt Question</td> <td>' + total_attempt_qestion + '</td> </tr> <tr> <td>Total Skipped Question</td> <td>' + total_skip_qestion + '</td> </tr> <tr> <td>Result</td> <td>' + percent + '</td> </tr>'
+											);
+				$("#div_result").show('slide', {direction: 'down'}, "slow");;
+				
+		});
+			
+	}
+</script>
+
 
 </head>
 <body>
@@ -75,9 +210,9 @@
             <div class="navigation-items">
 				<div class="nav-item">
                     <a href="home.html" class="home-nav">Home<em class="unselected-nav"></em></a>
-                </div>
-                <div class="nav-item">
-                    <a href="my_course.html" class="mycourse-nav">My Ongoing Courses<em class="selected-nav"></em></a>
+                </div>               
+			   <div class="nav-item">
+                    <a href="my_course.html" class="mycourse-nav">My Ongoing Courses<em class="unselected-nav"></em></a>
                 </div>
                 <div class="sidebar-decoration"></div>
                 <div class="nav-item">
@@ -91,7 +226,7 @@
                 </div>
                 <div class="sidebar-decoration"></div>
                 <div class="nav-item">
-                    <a href="news.html" class="news-nav">News<em class="unselected-nav"></em></a>
+                    <a href="news.html" class="news-nav">News<em class="selected-nav"></em></a>
                 </div> 
                 <div class="sidebar-decoration"></div>
 				<div class="nav-item">
@@ -139,11 +274,11 @@
     </div>
 
 
-    <div id="content" class="page-content" style="background-image:url('images/gallery/full/01/01Screen_bg.png'); height:800px">
+    <div id="content" class="page-content" style="background-image:url('images/gallery/full/01/01Screen_bg.png');">
     	<div class="content-controls">
         	<a href="#" class="deploy-sidebar"></a>
-            <em class="content-title">My Courses</em>
-            <a href="" class="deploy-contact"></a>
+            <em class="content-title">Quiz</em>
+            
         </div>
         
         
@@ -158,43 +293,82 @@
         
         <div class="content">
         	
-            <div class="container no-bottom" style="height:820px">
-            	<p class="column-responsive newscontent half-bottom" style="width: 99%;">
-            		<img src="images/extra/AirportBusiness_logo_204.jpg" alt="img">
-                    <strong>Airport Business</strong>
-                    <em>
-                    	Airport Business course offers learners wide-ranging knowledge about aviation industry, airport infrastructure, airport management, airport security and vital zones in an airport and their functions.
-                	</em>
-            	</p>
-				<p class="column-responsive newscontent half-bottom" style="width: 99%;">
-            		<img src="images/extra/TerminalOperations_204.jpg" alt="img">
-                    <strong>Terminal Operations</strong>
-                    <em>
-                    	Terminal Operations course offers learners information about terminal components, terminal planning and design, ground handling, baggage screening & handling, service quality and passenger experience.
-                	</em>
-            	</p>
-				<p class="column-responsive  half-bottom" style="width: 99%;">
-            		<img src="images/extra/AirsideOperations_204.jpg" alt="img">
-                    <strong>Airside Operations</strong>
-                    <em>
-                    	Airside Operations course offers essential awareness to learners about various components of Airside, airfield inspections, markings, navaids, air traffic control, aircraft recognition, airport code apron management, hazard management.
-                	</em>
-            	</p>
-            	<p class="column-responsive newscontent half-bottom" style="width: 99%;">
-            		<img src="images/extra/AirportEnvironmentalManagement_204.jpg" alt="img">
-                    <strong>Airport Environmental Management</strong>
-                    <em>
-                    	Airport Environment Management course provides learners with an overview of aviation.Environmental impacts such as air pollution, emissions, aircraft noise, waste generation, recycling and carbon footprint and allied ICAO regulations.
-                	</em>
-            	</p>               
-            	<p class="column-responsive newscontent half-bottom last-column" style="width: 99%;">
-            		<img src="images/extra/SafetyManagementSystems_204.jpg" alt="img">
-                    <strong>Safety Management Systems</strong>
-                    <em>
-                    	Safety Management Systems courses discusses about the history of SMS, ICAO regulations,SMS components and responsibilities, SMS levels and implementation, gap analysis, hazard identification, risk assessment and controls.
-                	</em>
-            	</p>
+            <div class="container no-bottom">
+				<div id="div_quiz_1">
+					<p class="column-responsive newscontent half-bottom">
+						<strong style="margin-left: 10px;">1. Airside area of the airport includes :</strong>
+					</p>
+					<p class="column-responsive newscontent half-bottom">
+						
+						<em>
+							<a style="margin-left: 10px;" href="1" class="checkbox radio-two radio1 custom" >Public transportation train stations</a>
+							<a style="margin-left: 10px;" href="2" class="checkbox radio-two radio1 custom" >Parking lots</a>
+							<a style="margin-left: 10px;" href="3" class="checkbox radio-two radio1 custom" >All areas accessible to aircarft</a>
+							<a style="margin-left: 10px;" href="4" class="checkbox radio-two radio1 custom" >None of these</a>
+							
+						</em>
+					</p>
+				</div>
+				
+				<div id="div_quiz_2" style="display:none">
+					<p class="column-responsive newscontent half-bottom">
+						<strong>2. A _____________ is an area where arriving passengers claim checked-in baggage after disembarking from an airline flight. Pick the most appropriate choice?</strong>
+					</p>
+					<p class="column-responsive newscontent half-bottom">
+						
+						<em>
+							<a href="1" class="checkbox radio-two radio2 custom" >Baggage claim area</a>
+							<a href="2" class="checkbox radio-two radio2 custom" >Airside area</a>
+							<a href="3" class="checkbox radio-two radio2 custom" >Runway</a>
+							<a href="4" class="checkbox radio-two radio2 custom" >None of these</a>
+							
+						</em>
+					</p>
+				</div>
+				
+				<div id="div_quiz_3" style="display:none">
+					<p class="column-responsive newscontent half-bottom">
+						<strong>3. ________________  are retail outlets that are exempted from the payment of certain local or national taxes and duties.</strong>
+					</p>
+					<p class="column-responsive newscontent half-bottom">
+						
+						<em>
+							<a href="1" class="checkbox radio-two radio3 custom" >Duty free shops</a>
+							<a href="2" class="checkbox radio-two radio3 custom" >Lounges</a>
+							<a href="3" class="checkbox radio-two radio3 custom" >Airline information counters</a>
+							<a href="4" class="checkbox radio-two radio3 custom" >None of these</a>
+							
+						</em>
+					</p>
+				</div>
+				
                 <div class="clear"></div>
+				
+				<div id="div_buttons">
+					<a href="javascript:void 0" id="skip" class="button button-red">Skip</a>
+					<a href="javascript:void 0" id="submit" class="button button-green" style="display:none">Submit</a>
+					<a href="javascript:void 0" id="next" class="button button-yellow">Next</a>
+				</div>
+				
+				<div class="white-content-box" id="div_result" style="display:none">
+					<div class="">
+						<h3>Quiz Result</h3>
+						<br />
+						<table cellpadding="0" cellspacing="0" class="table3" width="99%" id="tbl_quiz_result"  >
+							<tr>
+								<thead>
+									
+									<th></th>
+									<th></th>
+									
+								</thead>
+								<tbody>
+								</tbody>
+							</tr>
+						</table>
+					</div>
+				</div>
+				
             </div>
             <div class="decoration"></div>
         </div>

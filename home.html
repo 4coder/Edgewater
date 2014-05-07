@@ -23,6 +23,76 @@
 <link href="styles/owl.theme.css" 		rel="stylesheet" type="text/css">
 <link href="styles/swipebox.css"		 rel="stylesheet" type="text/css">
 <link href="styles/colorbox.css"		 rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/idangerous.swiper.css">
+ <style>
+/* Demo Styles */
+
+.preloader {
+  position: absolute;
+  left: 0;
+  top: -100px;
+  z-index: 0;
+  color: #fff;
+  text-align: center;
+  line-height: 100px;
+  height: 100px;
+  width: 100%;
+  opacity: 0;
+  font-size: 25px;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -ms-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+  background: rgba(0,0,0,0.1);
+}
+.preloader.visible {
+  top: 0;
+  opacity: 1;
+}
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  
+}
+.red-slide {
+  background: #ca4040;
+}
+.blue-slide {
+  background: #4390ee;
+}
+.orange-slide {
+  background: #ff8604;
+}
+.green-slide {
+  background: #49a430;
+}
+.pink-slide {
+  background: #973e76;
+}
+.swiper-slide {
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  opacity: 0.2;
+  -webkit-transition: 300ms;
+  -moz-transition: 300ms;
+  -ms-transition: 300ms;
+  -o-transition: 300ms;
+  transition: 300ms;
+}
+.swiper-slide-visible {
+  opacity: 1;
+}
+.swiper-slide .title {
+  font-style: italic;
+  font-size: 42px;
+}
+  </style>
 
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/jqueryui.js"></script>
@@ -34,6 +104,8 @@
 <script type="text/javascript" src="scripts/custom.js"></script>
 <script type="text/javascript" src="scripts/framework.js"></script>
 <script type="text/javascript" src="scripts/framework.launcher.js"></script>
+<script src="js/idangerous.swiper-2.1.min.js"></script>
+
 
 
 </head>
@@ -136,7 +208,7 @@
     </div>
 
 
-    <div id="content" class="page-content" style="background-image:url('images/gallery/full/02Screen1.png');no-repeat center center fixed; 
+    <div id="content" class="page-content" style="background-image:url('images/gallery/full/02Screen_bg.png');no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -144,9 +216,9 @@
     	<div class="content-controls">
         	<a href="#" class="deploy-sidebar"></a>
             <em class="content-title">COURSE</em>
-            <a href="contact.html" class="deploy-contact"></a>
+            
         </div>    
-        <div class="fixed-header-clear"></div>    
+        
 
        
         
@@ -155,7 +227,7 @@
         <div class="content">
         	
             <div class="container no-bottom">
-                <div class="one-third" style="margin-left: 36%;margin-top: 113px;margin-bottom: 250px;">
+                <div class="one-third" style="margin-left: 39%;margin-top: 35%;width: 25%;">
                     
 					<h1>Airport Business</h1>
 					
@@ -163,9 +235,36 @@
 Airport Business course offers learners wide-ranging knowledge about aviation industry, airport infrastructure, airport management, airport security and vital zones in an airport and their functions.
                     </p>        
                 </div>
-				 <div class="one-third">
-                    
-					<img class="responsive-image" src="images/extra/AirportBusiness_logo_204.jpg" alt="img">      
+				 <div class="one-third" style="margin-right: 0%;height:770px">
+                    <div class="preloader">
+    Loading...
+  </div>
+	<div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide red-slide">
+        <div class="title">Chapter 1</div>
+      </div>
+      <div class="swiper-slide blue-slide">
+        <div class="title">Chapter 2</div>
+      </div>
+      <div class="swiper-slide orange-slide">
+        <div class="title">Chapter 3</div>
+      </div>
+      <div class="swiper-slide green-slide">
+        <div class="title"><a href="chapter.html">Chapter 4</a></div>
+      </div>
+      <div class="swiper-slide pink-slide">
+        <div class="title">Chapter 5</div>
+      </div>
+      <div class="swiper-slide red-slide">
+        <div class="title">Chapter 6</div>
+      </div>
+      <div class="swiper-slide blue-slide">
+        <div class="title">Chapter 7</div>
+      </div>
+      
+    </div>
+  </div>
                 </div>
             </div>
                     	
@@ -181,7 +280,61 @@ Airport Business course offers learners wide-ranging knowledge about aviation in
 		</div>        
     </div>  
 </div>
+<script>
+  var holdPosition = 0;
+  var mySwiper = new Swiper('.swiper-container',{
+    slidesPerView:'auto',
+    mode:'vertical',
+    watchActiveIndex: true,
+    onTouchStart: function() {
+      holdPosition = 0;
+    },
+    onResistanceBefore: function(s, pos){
+      holdPosition = pos;
+    },
+    onTouchEnd: function(){
+      if (holdPosition>100) {
+        // Hold Swiper in required position
+        mySwiper.setWrapperTranslate(0,100,0)
 
+        //Dissalow futher interactions
+        mySwiper.params.onlyExternal=true
+
+        //Show loader
+        $('.preloader').addClass('visible');
+
+        //Load slides
+        loadNewSlides();
+      }
+    }
+  })
+  var slideNumber = 0;
+  function loadNewSlides() {
+    /* 
+    Probably you should do some Ajax Request here
+    But we will just use setTimeout
+    */
+	
+    setTimeout(function(){
+      //Prepend new slide
+      var colors = ['red','blue','green','orange','pink'];
+      var color = colors[Math.floor(Math.random()*colors.length)];
+      mySwiper.prependSlide('<div class="title">New Chapter '+slideNumber+'</div>', 'swiper-slide '+color+'-slide')
+
+      //Release interactions and set wrapper
+      mySwiper.setWrapperTranslate(0,0,0)
+      mySwiper.params.onlyExternal=false;
+
+      //Update active slide
+      mySwiper.updateActiveSlide(0)
+
+      //Hide loader
+      $('.preloader').removeClass('visible')
+    },1000)
+
+    slideNumber++;
+  }
+  </script>
 </body>
 </html>
 

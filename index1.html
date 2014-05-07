@@ -35,8 +35,10 @@
 <script type="text/javascript" src="scripts/framework.js"></script>
 <script type="text/javascript" src="scripts/framework.launcher.js"></script>
 
-<script>
-  window.onload = function() {
+<script type="text/javascript">
+
+$( document ).ready(function() {
+    
 	$("#contactSubmitButton").click(function(){
 		var name = $("#contactNameField").val();
 		var password = $("#contactEmailField").val();
@@ -47,17 +49,19 @@
 		}
 		else
 		{
-			alert("User name and Password miss match.");
+			alert("User name and Password miss match");
 		}
 		
 	});
-}
+	
+});
+
 
 </script>
 
 
 </head>
-<body style="background-image:url('images/gallery/full/01/01Screen_bg.png');">
+<body>
 
 <div id="preloader">
 	<div id="status">
@@ -69,11 +73,11 @@
 </div>
 
 
-<div class="all-elements">
+<div class="all-elements" style="border-bottom: 4px solid #27ae60;">
     
 
 
-    <div id="content" class="page-content" >	
+    <div id="content" class="page-content" style="background-image:url('images/gallery/full/01/01Screen_bg.png');">	
     	   
         
         
